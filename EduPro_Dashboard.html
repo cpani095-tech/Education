@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduPro Platform — Nassau Candy Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-w:220px;
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f5f5f3;
+  --color-background-tertiary:#eeede8;
+  --color-background-info:#e6f1fb;
+  --color-background-success:#eaf3de;
+  --color-background-warning:#faeeda;
+  --color-background-danger:#fcebeb;
+  --color-text-primary:#1a1a18;
+  --color-text-secondary:#5f5e5a;
+  --color-text-tertiary:#888780;
+  --color-text-info:#185fa5;
+  --color-text-success:#0f6e56;
+  --color-text-warning:#854f0b;
+  --color-text-danger:#a32d2d;
+  --color-border-tertiary:rgba(0,0,0,0.12);
+  --color-border-secondary:rgba(0,0,0,0.22);
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --color-background-primary:#1e1e1c;
+  --color-background-secondary:#2a2a28;
+  --color-background-tertiary:#242422;
+  --color-background-info:#0c2e52;
+  --color-background-success:#07352a;
+  --color-background-warning:#3d2505;
+  --color-background-danger:#3e1212;
+  --color-text-primary:#f0ede6;
+  --color-text-secondary:#b4b2a9;
+  --color-text-tertiary:#888780;
+  --color-text-info:#85b7eb;
+  --color-text-success:#5dcaa5;
+  --color-text-warning:#ef9f27;
+  --color-text-danger:#f09595;
+  --color-border-tertiary:rgba(255,255,255,0.1);
+  --color-border-secondary:rgba(255,255,255,0.18);
+}}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--nav-w);background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100%;z-index:10}
+.logo-area{padding:20px 18px 16px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:#378ADD;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon i{font-size:17px;color:#fff}
+.logo-text{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.logo-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+nav{flex:1;padding:12px 0;overflow-y:auto}
+.nav-section{padding:8px 18px 4px;font-size:11px;color:var(--color-text-tertiary);letter-spacing:.04em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 18px;cursor:pointer;font-size:14px;color:var(--color-text-secondary);transition:background .15s;border-left:2px solid transparent;user-select:none}
+.nav-item:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-item.active{background:var(--color-background-secondary);color:#185FA5;border-left-color:#185FA5;font-weight:500}
+.nav-item i{font-size:17px;flex-shrink:0}
+.nav-item .badge{margin-left:auto;background:var(--color-background-info);color:var(--color-text-info);font-size:11px;padding:1px 7px;border-radius:20px}
+.sidebar-footer{padding:14px 18px;border-top:0.5px solid var(--color-border-tertiary)}
+.profile-mini{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:var(--border-radius-md)}
+.profile-mini:hover{background:var(--color-background-secondary)}
+.avatar{width:32px;height:32px;border-radius:50%;background:#B5D4F4;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#0C447C;flex-shrink:0}
+.profile-info p{font-size:13px;font-weight:500}
+.profile-info span{font-size:11px;color:var(--color-text-secondary)}
+.main{margin-left:var(--nav-w);flex:1;display:flex;flex-direction:column}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 24px;height:54px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+.topbar-title{font-size:16px;font-weight:500;flex:1}
+.topbar-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary)}
+.topbar-btn:hover{background:var(--color-background-secondary)}
+.topbar-btn.primary{background:#185FA5;color:#fff;border-color:#185FA5}
+.topbar-btn.primary:hover{background:#0C447C}
+.page{display:none;padding:24px;flex:1}
+.page.active{display:block}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 16px}
+.metric .label{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
+.metric .value{font-size:22px;font-weight:500}
+.metric .change{font-size:12px;margin-top:3px}
+.change.up{color:#0F6E56}.change.down{color:#993C1D}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;margin-bottom:18px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:500}
+.card-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.chart-wrap{position:relative;width:100%;height:240px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.sidebar{transform:translateX(-100%)}.main{margin-left:0}}
+.table-wrap{overflow-x:auto}
+table{width:100%;font-size:13px;border-collapse:collapse}
+th{font-weight:500;color:var(--color-text-secondary);padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left;font-size:12px}
+td{padding:9px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-background-secondary)}
+.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.pill.blue{background:var(--color-background-info);color:var(--color-text-info)}
+.pill.green{background:var(--color-background-success);color:var(--color-text-success)}
+.pill.amber{background:var(--color-background-warning);color:var(--color-text-warning)}
+.pill.red{background:var(--color-background-danger);color:var(--color-text-danger)}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 120px);max-height:600px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5}
+.msg.bot{background:var(--color-background-secondary);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.user{background:#185FA5;color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.chat-input-row{display:flex;gap:8px;padding:12px 0 0;border-top:0.5px solid var(--color-border-tertiary)}
+.chat-input{flex:1;padding:10px 14px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+.chat-input:focus{border-color:#378ADD}
+.send-btn{padding:10px 16px;background:#185FA5;color:#fff;border:none;border-radius:var(--border-radius-lg);cursor:pointer;font-size:14px}
+.send-btn:hover{background:#0C447C}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:12px}
+.cal-head{text-align:center;font-size:12px;color:var(--color-text-secondary);padding:6px 0;font-weight:500}
+.cal-day{text-align:center;padding:8px 4px;font-size:13px;border-radius:var(--border-radius-md);cursor:pointer;min-height:36px;position:relative}
+.cal-day:hover{background:var(--color-background-secondary)}
+.cal-day.today{background:#185FA5;color:#fff;font-weight:500}
+.cal-day.has-event::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#EF9F27}
+.cal-day.other{color:var(--color-text-tertiary)}
+.events-list{margin-top:18px}
+.event-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.event-item:last-child{border-bottom:none}
+.event-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.event-info p{font-size:13px;font-weight:500}
+.event-info span{font-size:12px;color:var(--color-text-secondary)}
+.form-group{margin-bottom:16px}
+.form-label{font-size:13px;font-weight:500;margin-bottom:6px;display:block;color:var(--color-text-secondary)}
+.form-input{width:100%;padding:9px 12px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.form-input:focus{outline:none;border-color:#378ADD}
+textarea.form-input{resize:vertical;min-height:90px}
+select.form-input{cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.submit-btn{background:#185FA5;color:#fff;padding:10px 24px;border:none;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;margin-top:4px}
+.submit-btn:hover{background:#0C447C}
+.faq-item{border-bottom:0.5px solid var(--color-border-tertiary)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 0;cursor:pointer;font-size:14px;font-weight:500}
+.faq-q:hover{color:#185FA5}
+.faq-a{font-size:14px;line-height:1.7;color:var(--color-text-secondary);padding-bottom:14px;display:none}
+.faq-a.open{display:block}
+.job-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.job-company{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;flex-shrink:0}
+.job-details{flex:1}
+.job-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.job-meta{font-size:12px;color:var(--color-text-secondary)}
+.job-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.apply-btn{padding:7px 16px;font-size:13px;border:0.5px solid #185FA5;border-radius:var(--border-radius-md);color:#185FA5;cursor:pointer;background:transparent;flex-shrink:0}
+.apply-btn:hover{background:var(--color-background-info)}
+.search-bar{display:flex;gap:10px;margin-bottom:18px}
+.search-input{flex:1;padding:9px 14px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)}
+.filter-btn{padding:9px 14px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.profile-page .cover{height:100px;background:#185FA5;border-radius:var(--border-radius-lg);margin-bottom:0}
+.profile-avatar-wrap{display:flex;align-items:flex-end;gap:16px;padding:0 20px;margin-top:-30px;margin-bottom:16px}
+.profile-avatar-big{width:64px;height:64px;border-radius:50%;background:#B5D4F4;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:500;color:#0C447C;border:3px solid var(--color-background-primary)}
+.profile-name{font-size:18px;font-weight:500;padding-bottom:6px}
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="sidebar">
+  <div class="logo-area">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-bolt"></i></div>
+      <div>
+        <div class="logo-text">EduPro</div>
+        <div class="logo-sub">Learning Platform</div>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+    <div class="nav-item" onclick="showPage('calendar',this)"><i class="ti ti-calendar"></i>Calendar</div>
+    <div class="nav-item" onclick="showPage('chat',this)"><i class="ti ti-message-circle"></i>Chat Support<span class="badge">3</span></div>
+    <div class="nav-section">Projects</div>
+    <div class="nav-item" onclick="showPage('submit',this)"><i class="ti ti-upload"></i>Submit Project</div>
+    <div class="nav-section">Resources</div>
+    <div class="nav-item" onclick="showPage('jobs',this)"><i class="ti ti-briefcase"></i>Job Portal</div>
+    <div class="nav-item" onclick="showPage('faqs',this)"><i class="ti ti-help-circle"></i>FAQs</div>
+    <div class="nav-item" onclick="showPage('profile',this)"><i class="ti ti-user"></i>Profile</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="profile-mini" onclick="showPage('profile',null)">
+      <div class="avatar">AJ</div>
+      <div class="profile-info"><p>Arjun Joshi</p><span>Data Scientist</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+<div class="topbar">
+  <span class="topbar-title" id="topbar-title">Dashboard</span>
+  <button class="topbar-btn"><i class="ti ti-bell"></i></button>
+  <button class="topbar-btn"><i class="ti ti-search"></i></button>
+  <button class="topbar-btn primary" onclick="showPage('submit',null)"><i class="ti ti-plus"></i> New Project</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="metric-grid">
+    <div class="metric"><div class="label">Total Revenue</div><div class="value">$441K</div><div class="change up"><i class="ti ti-trending-up"></i> +12.4% vs last year</div></div>
+    <div class="metric"><div class="label">Total Orders</div><div class="value">10,195</div><div class="change up"><i class="ti ti-trending-up"></i> +8.1%</div></div>
+    <div class="metric"><div class="label">Gross Profit</div><div class="value">$294K</div><div class="change up"><i class="ti ti-trending-up"></i> +9.7%</div></div>
+    <div class="metric"><div class="label">Avg Order Value</div><div class="value">$43.20</div><div class="change down"><i class="ti ti-trending-down"></i> -1.2%</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Monthly Revenue</div><div class="card-sub">Jan–Dec 2024 · Nassau Candy</div></div></div>
+      <div class="chart-wrap"><canvas id="revenueChart" role="img" aria-label="Bar chart of monthly revenue">Monthly revenue 2024.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Sales by Region</div><div class="card-sub">All divisions</div></div></div>
+      <div class="chart-wrap"><canvas id="regionChart" role="img" aria-label="Donut chart of regional sales">Regional breakdown.</canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Top Products by Revenue</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Product</th><th>Division</th><th>Revenue</th><th>Units</th><th>Gross Profit</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Wonka Bar – Scrumdiddlyumptious</td><td>Chocolate</td><td>$112,450</td><td>31,232</td><td>$78,100</td><td><span class="pill green">Top</span></td></tr>
+          <tr><td>Wonka Bar – Triple Dazzle Caramel</td><td>Chocolate</td><td>$98,230</td><td>26,194</td><td>$64,130</td><td><span class="pill green">Top</span></td></tr>
+          <tr><td>Wonka Bar – Milk Chocolate</td><td>Chocolate</td><td>$89,760</td><td>27,618</td><td>$58,340</td><td><span class="pill blue">Stable</span></td></tr>
+          <tr><td>Wonka Bar – Nutty Crunch Surprise</td><td>Chocolate</td><td>$74,330</td><td>21,240</td><td>$53,090</td><td><span class="pill blue">Stable</span></td></tr>
+          <tr><td>Wonka Bar – Fudge Mallows</td><td>Chocolate</td><td>$42,100</td><td>11,694</td><td>$28,070</td><td><span class="pill amber">Monitor</span></td></tr>
+          <tr><td>Wonka Gum</td><td>Other</td><td>$14,280</td><td>11,424</td><td>$7,420</td><td><span class="pill amber">Monitor</span></td></tr>
+          <tr><td>Kazookles</td><td>Other</td><td>$9,760</td><td>3,003</td><td>$750</td><td><span class="pill red">Review</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Revenue by Ship Mode</div></div>
+      <div class="chart-wrap" style="height:180px"><canvas id="shipChart" role="img" aria-label="Horizontal bar chart of revenue by shipping mode">Shipping mode revenue.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Recent Orders</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Order ID</th><th>City</th><th>Amount</th><th>Mode</th></tr></thead>
+          <tbody>
+            <tr><td>US-2024-164826</td><td>New York City</td><td>$77.25</td><td><span class="pill blue">Standard</span></td></tr>
+            <tr><td>US-2024-163860</td><td>Peoria</td><td>$39.00</td><td><span class="pill blue">Standard</span></td></tr>
+            <tr><td>US-2024-158526</td><td>Louisville</td><td>$51.29</td><td><span class="pill amber">Second</span></td></tr>
+            <tr><td>CA-2024-146626</td><td>St. John's</td><td>$28.80</td><td><span class="pill blue">Standard</span></td></tr>
+            <tr><td>US-2024-143259</td><td>New York City</td><td>$51.00</td><td><span class="pill blue">Standard</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div class="page" id="page-chat">
+  <div class="card chat-wrap">
+    <div class="chat-messages" id="chat-msgs">
+      <div class="msg bot">👋 Hi Arjun! I'm your EduPro support assistant. I can help you with platform questions, project guidance, or data analysis queries. How can I help?</div>
+      <div class="msg user">Can you explain the student segmentation project?</div>
+      <div class="msg bot">Sure! The project involves clustering EduPro learners based on behavioral, engagement, and preference features. You'll use K-Means and hierarchical clustering, then build a Streamlit app for personalized course recommendations.</div>
+      <div class="msg user">What dataset should I use?</div>
+      <div class="msg bot">You'll need three sheets: <strong>Users</strong> (demographics), <strong>Courses</strong> (catalog metadata), and <strong>Transactions</strong> (enrollment history). Engineer features like diversity score, learning depth index, and preferred category before clustering.</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-inp" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="send-btn" onclick="sendChat()"><i class="ti ti-send"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="page" id="page-calendar">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title" id="cal-month-label">May 2026</div></div>
+        <div style="display:flex;gap:6px">
+          <button class="topbar-btn" onclick="changeMonth(-1)"><i class="ti ti-chevron-left"></i></button>
+          <button class="topbar-btn" onclick="changeMonth(1)"><i class="ti ti-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="calendar-grid" id="cal-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Upcoming Events</div></div>
+      <div class="events-list">
+        <div class="event-item"><div class="event-dot" style="background:#185FA5"></div><div class="event-info"><p>Project Submission Deadline</p><span>May 30, 2026 · 11:59 PM</span></div></div>
+        <div class="event-item"><div class="event-dot" style="background:#0F6E56"></div><div class="event-info"><p>Clustering Workshop</p><span>Jun 3, 2026 · 2:00 PM</span></div></div>
+        <div class="event-item"><div class="event-dot" style="background:#EF9F27"></div><div class="event-info"><p>Streamlit Demo Day</p><span>Jun 10, 2026 · 10:00 AM</span></div></div>
+        <div class="event-item"><div class="event-dot" style="background:#993C1D"></div><div class="event-info"><p>EDA Review Session</p><span>Jun 14, 2026 · 3:30 PM</span></div></div>
+        <div class="event-item"><div class="event-dot" style="background:#534AB7"></div><div class="event-info"><p>Executive Presentation</p><span>Jun 20, 2026 · 9:00 AM</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT PROJECT -->
+<div class="page" id="page-submit">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;cursor:pointer;color:var(--color-text-secondary);font-size:13px" onclick="showPage('dashboard',null)">
+    <i class="ti ti-arrow-left"></i> Back to Dashboard
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Submit Project</div>
+        <div class="card-sub">Student Segmentation &amp; Personalized Course Recommendation System for EduPro</div>
+      </div>
+      <span class="pill blue">Active</span>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Student name</label><input class="form-input" type="text" placeholder="Full name" value="Arjun Joshi"/></div>
+      <div class="form-group"><label class="form-label">Student ID</label><input class="form-input" type="text" placeholder="e.g. EP-2024-0381"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Project title</label><input class="form-input" type="text" value="Student Segmentation and Personalized Course Recommendation System"/></div>
+      <div class="form-group"><label class="form-label">Submission type</label><select class="form-input"><option>Final submission</option><option>Draft / work in progress</option><option>Revision</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Project summary</label><textarea class="form-input" placeholder="Brief description of your methodology, key findings, and Streamlit app features..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Clustering algorithm used</label><select class="form-input"><option>K-Means</option><option>Hierarchical Clustering</option><option>Both (K-Means + Hierarchical)</option><option>DBSCAN</option></select></div>
+      <div class="form-group"><label class="form-label">Number of clusters</label><input class="form-input" type="number" placeholder="e.g. 4" min="2" max="20"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Silhouette score</label><input class="form-input" type="number" step="0.01" placeholder="e.g. 0.62" min="0" max="1"/></div>
+    <div class="form-group"><label class="form-label">GitHub / Streamlit link</label><input class="form-input" type="url" placeholder="https://github.com/..."/></div>
+    <div class="form-group"><label class="form-label">Attach research paper (PDF)</label><input class="form-input" type="file" accept=".pdf"/></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="submit-btn" onclick="submitProject()">Submit Project</button>
+      <button class="topbar-btn">Save as Draft</button>
+      <span id="submit-msg" style="font-size:13px;color:var(--color-text-success)"></span>
+    </div>
+  </div>
+</div>
+
+<!-- FAQs -->
+<div class="page" id="page-faqs">
+  <div class="card">
+    <div class="card-header"><div class="card-title">Frequently Asked Questions</div></div>
+    <div id="faq-list"></div>
+  </div>
+</div>
+
+<!-- JOB PORTAL -->
+<div class="page" id="page-jobs">
+  <div class="search-bar">
+    <input class="search-input" type="text" placeholder="Search roles, companies, skills…" id="job-search" oninput="filterJobs()"/>
+    <button class="filter-btn"><i class="ti ti-filter"></i> Filter</button>
+    <button class="filter-btn"><i class="ti ti-map-pin"></i> Location</button>
+  </div>
+  <div id="job-list"></div>
+</div>
+
+<!-- PROFILE -->
+<div class="page profile-page" id="page-profile">
+  <div class="cover"></div>
+  <div class="profile-avatar-wrap">
+    <div class="profile-avatar-big">AJ</div>
+    <div style="padding-bottom:6px">
+      <div class="profile-name">Arjun Joshi</div>
+      <div style="font-size:13px;color:var(--color-text-secondary)">Data Science Track · Cohort 2024</div>
+    </div>
+    <button class="topbar-btn" style="margin-left:auto;margin-bottom:6px"><i class="ti ti-edit"></i> Edit Profile</button>
+  </div>
+  <div class="metric-grid" style="margin-bottom:18px">
+    <div class="metric"><div class="label">Projects submitted</div><div class="value">3</div></div>
+    <div class="metric"><div class="label">Courses completed</div><div class="value">12</div></div>
+    <div class="metric"><div class="label">Avg score</div><div class="value">87%</div></div>
+    <div class="metric"><div class="label">Streak</div><div class="value">14 days</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Current Projects</div></div>
+      <table style="width:100%;font-size:13px;border-collapse:collapse">
+        <tr><td style="padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="font-weight:500">Student Segmentation</span><br><span style="font-size:12px;color:var(--color-text-secondary)">Due May 30</span></td><td style="text-align:right"><span class="pill amber">In Progress</span></td></tr>
+        <tr><td style="padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="font-weight:500">EDA for Nassau Candy</span><br><span style="font-size:12px;color:var(--color-text-secondary)">Due Jun 5</span></td><td style="text-align:right"><span class="pill blue">Draft</span></td></tr>
+        <tr><td style="padding:8px 0"><span style="font-weight:500">Streamlit Dashboard</span><br><span style="font-size:12px;color:var(--color-text-secondary)">Due Jun 10</span></td><td style="text-align:right"><span class="pill green">Submitted</span></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Skills &amp; Badges</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="pill blue">Python</span><span class="pill blue">K-Means</span><span class="pill blue">Streamlit</span><span class="pill green">EDA</span><span class="pill green">SQL</span><span class="pill amber">Deep Learning</span><span class="pill blue">Pandas</span><span class="pill green">Scikit-learn</span><span class="pill amber">Power BI</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const pages={dashboard:'Dashboard',chat:'Chat Support',calendar:'Calendar',submit:'Submit Project',faqs:'FAQs',jobs:'Job Portal',profile:'Profile'};
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.getElementById('topbar-title').textContent=pages[id]||'Dashboard';
+}
+
+const faqs=[
+  {q:'What is the goal of the student segmentation project?',a:'The goal is to cluster EduPro learners into meaningful segments using unsupervised learning, then build a personalized course recommendation engine based on each learner\'s behavioral and preference profile.'},
+  {q:'Which clustering algorithm should I use?',a:'K-Means is the primary algorithm. You should also validate results using Hierarchical Clustering. Use the Elbow method and Silhouette Score to select the optimal number of clusters.'},
+  {q:'What features should I engineer from the dataset?',a:'Engineer engagement features (total courses enrolled, enrollment frequency), preference features (preferred category, preferred level, average rating), and behavioral features (avg spending, diversity score, learning depth index).'},
+  {q:'What does the Streamlit app need to include?',a:'The app must include a learner profile explorer, cluster visualization dashboard, personalized course recommendation module, and segment comparison panels with filters by level or category.'},
+  {q:'What are the evaluation metrics?',a:'You will be evaluated on Silhouette Score (cluster quality), Intra-Cluster Similarity (behavioral consistency), Recommendation Precision (relevance), and Engagement Lift as a proxy for impact.'},
+  {q:'What deliverables are required for submission?',a:'You must submit: (1) a research paper with EDA, insights, and recommendations; (2) a live Streamlit dashboard; and (3) an executive summary suitable for stakeholder audiences.'},
+  {q:'How do I access the dataset?',a:'Click the "Access Dataset" button on the project requirements page or contact your mentor. The dataset includes three sheets: Users, Courses, and Transactions.'},
+];
+const faqEl=document.getElementById('faq-list');
+faqs.forEach((f,i)=>{
+  faqEl.innerHTML+=`<div class="faq-item"><div class="faq-q" onclick="toggleFaq(${i})"><span>${f.q}</span><i class="ti ti-chevron-down" id="faq-icon-${i}"></i></div><div class="faq-a" id="faq-a-${i}">${f.a}</div></div>`;
+});
+function toggleFaq(i){
+  const a=document.getElementById('faq-a-'+i);
+  const ic=document.getElementById('faq-icon-'+i);
+  a.classList.toggle('open');
+  ic.style.transform=a.classList.contains('open')?'rotate(180deg)':'';
+}
+
+const jobs=[
+  {title:'Data Scientist',company:'Spotify',location:'Remote · Full-time',tags:['Python','ML','Recommendation'],color:'#1D9E75',init:'SP'},
+  {title:'ML Engineer',company:'Amazon',location:'Seattle, WA · Full-time',tags:['AWS','PyTorch','MLOps'],color:'#185FA5',init:'AM'},
+  {title:'Analytics Engineer',company:'Shopify',location:'Toronto · Hybrid',tags:['dbt','SQL','BigQuery'],color:'#534AB7',init:'SH'},
+  {title:'NLP Researcher',company:'Anthropic',location:'San Francisco · On-site',tags:['LLMs','Python','Research'],color:'#993C1D',init:'AN'},
+  {title:'BI Developer',company:'Deloitte',location:'New York · Hybrid',tags:['Power BI','SQL','Tableau'],color:'#854F0B',init:'DE'},
+  {title:'Data Analyst',company:'Netflix',location:'Remote · Contract',tags:['Python','Pandas','Visualization'],color:'#A32D2D',init:'NF'},
+];
+const jobList=document.getElementById('job-list');
+function renderJobs(list){
+  jobList.innerHTML=list.map(j=>`<div class="job-card"><div class="job-company" style="background:${j.color}22;color:${j.color}">${j.init}</div><div class="job-details"><div class="job-title">${j.title}</div><div class="job-meta">${j.company} · ${j.location}</div><div class="job-tags">${j.tags.map(t=>`<span class="pill blue">${t}</span>`).join('')}</div></div><button class="apply-btn">Apply</button></div>`).join('');
+}
+renderJobs(jobs);
+function filterJobs(){
+  const q=document.getElementById('job-search').value.toLowerCase();
+  renderJobs(jobs.filter(j=>(j.title+j.company+j.tags.join('')).toLowerCase().includes(q)));
+}
+
+function sendChat(){
+  const inp=document.getElementById('chat-inp');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  const msgs=document.getElementById('chat-msgs');
+  msgs.innerHTML+=`<div class="msg user">${txt}</div>`;
+  inp.value='';
+  setTimeout(()=>{
+    msgs.innerHTML+=`<div class="msg bot">Thanks for your message! Our support team will respond shortly. For urgent queries about clustering or Streamlit, check the FAQs or submit a ticket.</div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },600);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+let calYear=2026,calMonth=4;
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCal(){
+  document.getElementById('cal-month-label').textContent=months[calMonth]+' '+calYear;
+  const grid=document.getElementById('cal-grid');
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  grid.innerHTML=days.map(d=>`<div class="cal-head">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1).getDay();
+  const total=new Date(calYear,calMonth+1,0).getDate();
+  const prevTotal=new Date(calYear,calMonth,0).getDate();
+  for(let i=0;i<first;i++)grid.innerHTML+=`<div class="cal-day other">${prevTotal-first+1+i}</div>`;
+  for(let d=1;d<=total;d++){
+    const isToday=calYear===2026&&calMonth===4&&d===26;
+    const hasEv=[30].includes(d);
+    grid.innerHTML+=`<div class="cal-day${isToday?' today':''}${hasEv&&!isToday?' has-event':''}">${d}</div>`;
+  }
+  const rem=(7-(first+total)%7)%7;
+  for(let i=1;i<=rem;i++)grid.innerHTML+=`<div class="cal-day other">${i}</div>`;
+}
+function changeMonth(d){calMonth+=d;if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;}renderCal();}
+renderCal();
+
+function submitProject(){
+  document.getElementById('submit-msg').textContent='✓ Project submitted successfully!';
+  setTimeout(()=>document.getElementById('submit-msg').textContent='',3000);
+}
+
+const isDark=matchMedia('(prefers-color-scheme:dark)').matches;
+const gridC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)';
+const txtC=isDark?'#888':'#888780';
+
+new Chart(document.getElementById('revenueChart'),{
+  type:'bar',
+  data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],datasets:[{label:'Revenue ($)',data:[32400,28900,35600,38200,33800,41500,39700,44200,36900,42800,48300,51200],backgroundColor:'#378ADD',borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gridC},ticks:{color:txtC,font:{size:11}}},y:{grid:{color:gridC},ticks:{color:txtC,font:{size:11},callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+new Chart(document.getElementById('regionChart'),{
+  type:'doughnut',
+  data:{labels:['Interior','Pacific','Atlantic','Gulf'],datasets:[{data:[38,29,18,15],backgroundColor:['#378ADD','#1D9E75','#534AB7','#EF9F27'],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}
+});
+new Chart(document.getElementById('shipChart'),{
+  type:'bar',
+  data:{labels:['Standard Class','Second Class','First Class'],datasets:[{label:'Revenue',data:[298000,97000,46000],backgroundColor:['#378ADD','#1D9E75','#534AB7'],borderRadius:4}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gridC},ticks:{color:txtC,font:{size:11},callback:v=>'$'+Math.round(v/1000)+'K'}},y:{grid:{display:false},ticks:{color:txtC,font:{size:11}}}}}
+});
+</script>
+</body>
+</html>
